@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          MICROCMS_SERVICE_DOMAIN: ${{ vars.MICROCMS_SERVICE_DOMAIN }}
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
           MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
           PUBLIC_CONTACT_EMAIL: ${{ vars.PUBLIC_CONTACT_EMAIL }}
       - uses: actions/upload-pages-artifact@v3
