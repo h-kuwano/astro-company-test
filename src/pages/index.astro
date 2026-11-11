@@ -1,13 +1,43 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { cms, type News } from '../lib/microcms';
-const { contents: news } = await cms.getList<News>({ endpoint: 'news', queries: { limit: 3, orders: '-publishedAt' } });
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import Layout from "../layouts/Layout.astro";
+import { cms, type News } from "../lib/microcms";
+const { contents: news } = await cms.getList<News>({
+    endpoint: "news",
+    queries: { limit: 3, orders: "-publishedAt" },
+});
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
+
 <Layout title="ホーム">
-  <section class="hero"><h1>人と技術で、未来をつくる。</h1><p>私たちは架空のWeb制作会社です。これはAstroとmicroCMSを学ぶためのサンプルサイトです。</p><a class="button" href={`${base}/about/`}>会社概要を見る</a></section>
-  <h2>私たちについて</h2><p class="lead">Webサイト制作、デザイン、運用支援を通じて、お客様の情報発信をサポートします。</p>
-  <h2>新着お知らせ</h2>
-  {news.length === 0 ? <p>現在、お知らせはありません。</p> : <div class="grid">{news.map(item => <article class="card"><p class="date">{item.publishedAt?.slice(0,10) ?? ''}</p><h3><a href={`${base}/news/${item.id}/`}>{item.title}</a></h3></article>)}</div>}
-  <p><a href={`${base}/news/`}>お知らせ一覧を見る →</a></p>
+    <section class="hero">
+        <h1>人と技術で、未来をつくる。</h1>
+        <p>
+            私たちは架空のWeb制作会社です。これはAstroとmicroCMSを学ぶためのサンプルサイトです。
+        </p>
+        <a class="button" href={`${base}/about/`}>
+            会社概要を見る
+        </a>
+    </section>
+    <h2>私たちについて</h2>
+    <p class="lead">
+        Webサイト制作、デザイン、運用支援を通じて、お客様の情報発信をサポートします。
+    </p>
+    <h2>新着お知らせ</h2>
+    {news.length === 0 ? (
+        <p>現在、お知らせはありません。</p>
+    ) : (
+        <div class="grid">
+            {news.map((item) => (
+                <article class="card">
+                    <p class="date">{item.publishedAt?.slice(0, 10) ?? ""}</p>
+                    <h3>
+                        <a href={`${base}/news/${item.id}/`}>{item.title}</a>
+                    </h3>
+                </article>
+            ))}
+        </div>
+    )}
+    <p>
+        <a href={`${base}/news/`}>お知らせ一覧を見る →</a>
+    </p>
 </Layout>

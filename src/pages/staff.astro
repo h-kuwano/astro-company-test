@@ -1,6 +1,31 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { cms, type Staff } from '../lib/microcms';
-const { contents: staff } = await cms.getList<Staff>({ endpoint: 'staff', queries: { limit: 100 } });
+import Layout from "../layouts/Layout.astro";
+import { cms, type Staff } from "../lib/microcms";
+const { contents: staff } = await cms.getList<Staff>({
+    endpoint: "staff",
+    queries: { limit: 100 },
+});
 ---
-<Layout title="スタッフ紹介"><h1>スタッフ紹介</h1><p class="lead">この内容はmicroCMSのスタッフ紹介APIから取得しています。</p><div class="grid">{staff.map(item => <article class="card">{item.photo && <img class="staff-photo" src={item.photo.url} alt={`${item.name}の写真`} loading="lazy" />}<h2>{item.name}</h2>{item.position && <p class="muted">{item.position}</p>}{item.profile && <p>{item.profile}</p>}</article>)}</div>{staff.length === 0 && <p>スタッフ情報はまだありません。</p>}</Layout>
+
+<Layout title="スタッフ紹介">
+    <h1>スタッフ紹介</h1>
+    <p class="lead">この内容はmicroCMSのスタッフ紹介APIから取得しています。</p>
+    <div class="grid">
+        {staff.map((item) => (
+            <article class="card">
+                {item.photo && (
+                    <img
+                        class="staff-photo"
+                        src={item.photo.url}
+                        alt={`${item.name}の写真`}
+                        loading="lazy"
+                    />
+                )}
+                <h2>{item.name}</h2>
+                {item.position && <p class="muted">{item.position}</p>}
+                {item.profile && <p>{item.profile}</p>}
+            </article>
+        ))}
+    </div>
+    {staff.length === 0 && <p>スタッフ情報はまだありません。</p>}
+</Layout>
