@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { cms, type News } from '../../lib/microcms';
+export async function getStaticPaths() {
+  const all: News[] = [];
+  let offset = 0;
+  while (true) {
+    const result = await cms.getList<News>({ endpoint: 'news', queries: { limit: 100, offset } });
+    all.push(...result.contents);
+    offset += result.contents.length;
+    if (offset >= result.totalCount || result.contents.length === 0) break;
+  }
+  return all.map(item => ({ params: { id: item.id }, props: { item } }));
+}
+const { item } = Astro.props as { item: News };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title={item.title}><article class="article"><p class="date">{item.publishedAt?.slice(0,10) ?? ''}</p><h1>{item.title}</h1>{item.thumbnail && <img src={item.thumbnail.url} alt="" /> }<div class="card" set:html={item.content} /></article><p><a href={`${base}/news/`}>← お知らせ一覧に戻る</a></p></Layout>

@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { cms, type News } from '../../lib/microcms';
+const { contents: news } = await cms.getList<News>({ endpoint: 'news', queries: { limit: 100, orders: '-publishedAt' } });
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="お知らせ"><h1>お知らせ</h1><p class="lead">microCMSで記事を追加すると、次回のビルドで反映されます。</p>{news.map(item => <article class="card"><p class="date">{item.publishedAt?.slice(0,10) ?? ''}</p><h2><a href={`${base}/news/${item.id}/`}>{item.title}</a></h2></article>)}{news.length === 0 && <p>お知らせはありません。</p>}</Layout>

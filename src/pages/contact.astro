@@ -1,0 +1,5 @@
+---
+import Layout from '../layouts/Layout.astro';
+const destination = import.meta.env.PUBLIC_CONTACT_EMAIL || '';
+---
+<Layout title="お問い合わせ"><h1>お問い合わせ</h1><p class="lead">学習用の簡易フォームです。</p>{destination ? <form action={`https://formsubmit.co/${destination}`} method="POST" class="card"><label for="name">お名前（必須）</label><input id="name" name="name" required maxlength="100" /><label for="email">メールアドレス（必須）</label><input id="email" name="email" type="email" required /><label for="message">お問い合わせ内容（必須）</label><textarea id="message" name="message" required maxlength="3000"></textarea><input type="hidden" name="_subject" value="サンプルサイトからのお問い合わせ" /><input type="hidden" name="_captcha" value="true" /><p><button class="button" type="submit">送信する</button></p></form> : <div class="card"><p>フォームはまだ送信先未設定です。</p><p><code>.env</code> に <code>PUBLIC_CONTACT_EMAIL=受信するメールアドレス</code> を追加し、開発サーバーを再起動してください。</p><p>設定後は外部フォームサービス（FormSubmit）へ送信されます。初回は受信先メールの確認が必要です。</p></div>}<p class="muted">実在する個人情報を入力してのテストは、送信先・外部サービスの利用条件を確認してから行ってください。</p></Layout>
